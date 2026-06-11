@@ -1,0 +1,30 @@
+base:
+  - base/yolov8.yaml
+
+network:
+  network_name: custom_yolov11s
+
+paths:
+  network_path:
+    - /local/shared_with_docker/day16/test17best.onnx
+
+  alls_script: /local/shared_with_docker/day16/custom_yolov11s.alls
+  data_path: /local/shared_with_docker/calibration_dataset2
+parser:
+  nodes:
+    - null
+    - - /model.23/cv2.0/cv2.0.2/Conv
+      - /model.23/cv3.0/cv3.0.2/Conv
+      - /model.23/cv2.1/cv2.1.2/Conv
+      - /model.23/cv3.1/cv3.1.2/Conv
+      - /model.23/cv2.2/cv2.2.2/Conv
+      - /model.23/cv3.2/cv3.2.2/Conv
+
+postprocessing:
+  device_pre_post_layers:
+    nms: true
+  hpp: true
+
+evaluation:
+  classes: 4
+  labels_offset: 0

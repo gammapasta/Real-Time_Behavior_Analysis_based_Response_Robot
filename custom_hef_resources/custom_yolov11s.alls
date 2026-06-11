@@ -1,0 +1,21 @@
+normalization1 = normalization([0.0, 0.0, 0.0], [255.0, 255.0, 255.0])
+
+change_output_activation(conv54, sigmoid)
+change_output_activation(conv65, sigmoid)
+change_output_activation(conv80, sigmoid)
+
+model_optimization_flavor(optimization_level=4, compression_level=0)
+model_optimization_config(
+    calibration,
+    batch_size=16,
+    calibset_size=2500
+)
+post_quantization_optimization(
+    adaround,
+    policy=enabled,
+    dataset_size=2500,
+    batch_size=16,
+    epochs=18,
+    learning_rate=0.0001
+)
+nms_postprocess("./custom_yolov11s_nms.json", meta_arch=yolov8, engine=cpu)
